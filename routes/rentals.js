@@ -17,7 +17,6 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   const { error } = validate(req.body); 
   if (error) return res.status(400).send(error.details[0].message);
-
   const customer = await Customer.findById(req.body.customerId);
   if (!customer) return res.status(400).send('Invalid customer.');
 
@@ -42,7 +41,7 @@ router.post('/', async (req, res) => {
   const task = new Fawn.Task();
 
   task.save('rentals', rental)
-  .update('movies', {_id: req.body.movieId}, {$inc: {numberInStock: -1}})
+  .update('movies', {_id: movie._id}, {$inc: {numberInStock: -1}})
   .run()
   .then(function(result) {
     console.log('RESULT', result);
