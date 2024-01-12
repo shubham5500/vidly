@@ -22,9 +22,16 @@ router.post("/", async (req, res) => {
       name,
       password,
     });
-    const createdUser = await user.save();
-    console.log({ createdUser, user });
-    return res.status(200).send(createdUser);
+    const createdUser = await user.save(); 
+
+    // here we are creating jwt token with the help of sign() method which expects a payload and a 
+    // private key to encrypt the token. Side note: The private key should not be placed
+    // in the code for security reasons. It should be placed in environment variable.
+    const token = jwt.sign({ _id: user._id }, config.get('jwtPrivateKey'));
+    return res.status(200).header('x-auth-token', token).send({
+        name: createdUser.name,
+        email: createdUser.email,
+    });
   } catch (error) {
     return res.status(400).send(error);
   }
