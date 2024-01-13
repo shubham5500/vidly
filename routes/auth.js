@@ -4,6 +4,8 @@ const Joi = require("joi");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { Users } = require("../models/users");
+const { authorize } = require("../middleware/auth");
+const { error } = require("../utils/error.util");
 
 const router = express.Router();
 
@@ -15,6 +17,22 @@ function validateLoginUser(req) {
 
   return Joi.validate(req, schema);
 }
+
+router.get("/profile", authorize, async (req, res) => {
+  try {
+    const { _id: userId } = req.user;
+
+    const user = await Users.findById(userId);
+    if (!user) {
+      throw new Error("No user found with this ID");
+    }
+    console.log(user);
+
+    res.status(200).send(user);
+  } catch (e) {
+    error(req, res, e);
+  }
+});
 
 router.post("/", async (req, res) => {
   try {
@@ -33,12 +51,12 @@ router.post("/", async (req, res) => {
     if (!isValidPassword) {
       throw new Error("Password is invalid");
     }
-    // here we are creating jwt token with the help of sign() method which expects a payload and a 
+    // here we are creating jwt token with the help of sign() method which expects a payload and a
     // private key to encrypt the token. Side note: The private key should not be placed
     // in the code for security reasons. It should be placed in environment variable.
-    const token = jwt.sign({ _id: user._id }, config.get('jwtPrivateKey'));
+    const token = user.generateToken();
 
-    res.send({token: token, id:  user._id});
+    res.send({ token: token, id: user._id });
   } catch (error) {
     if (error.hasOwnProperty("message"))
       return res.status(400).send(error.message);

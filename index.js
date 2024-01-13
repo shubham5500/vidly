@@ -12,6 +12,7 @@ const rentals = require('./routes/rentals');
 const users = require('./routes/users');
 const auth = require('./routes/auth');
 const express = require('express');
+const { authorize } = require('./middleware/auth');
 const app = express();
 
 if(!config.get('jwtPrivateKey')){
@@ -24,7 +25,7 @@ mongoose.connect('mongodb://localhost:27017/vidly')
   .catch(err => console.error('Could not connect to MongoDB...'));
 
 app.use(express.json());
-app.use('/api/auth', auth);
+app.use('/api/auth', authorize, auth);
 app.use('/api/users', users);
 app.use('/api/genres', genres);
 app.use('/api/customers', customers);

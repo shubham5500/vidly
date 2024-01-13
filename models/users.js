@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
-const bcrypt = require('bcrypt')
+const config = require('config');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -39,7 +41,15 @@ userSchema.pre('save', async function(next) {
     } catch (e) {
         return next(e)
     }
-})
+});
+
+userSchema.methods.generateToken = function() {
+    try {
+        return jwt.sign({ _id: this._id }, config.get("jwtPrivateKey"));
+    } catch (error) {   
+        throw new Error('user not found')
+    }
+}
 
 userSchema.methods.comparePassword = async function(candidatePassword) {
     try {
