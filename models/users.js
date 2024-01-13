@@ -22,7 +22,8 @@ const userSchema = new mongoose.Schema({
         required: true,
         minlength: 1,
         maxlength: 1024,
-    }
+    },
+    isAdmin: Boolean
 });
 
 userSchema.pre('save', async function(next) {
@@ -45,7 +46,7 @@ userSchema.pre('save', async function(next) {
 
 userSchema.methods.generateToken = function() {
     try {
-        return jwt.sign({ _id: this._id }, config.get("jwtPrivateKey"));
+        return jwt.sign({ _id: this._id, isAdmin: this.isAdmin }, config.get("jwtPrivateKey"));
     } catch (error) {   
         throw new Error('user not found')
     }

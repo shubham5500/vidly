@@ -15,11 +15,13 @@
     "config": "^3.3.10",
     "dotenv": "^16.3.1",
     "express": "^4.16.2",
+    "express-async-errors": "^3.1.1",
     "fawn": "^2.1.5",
     "joi": "^13.1.0",
     "joi-objectid": "^4.0.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.3",
-    "nodemon": "^3.0.2"
+    "nodemon": "^3.0.2",
+    "winston": "^3.11.0"
   }
 }

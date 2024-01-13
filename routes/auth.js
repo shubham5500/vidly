@@ -18,22 +18,6 @@ function validateLoginUser(req) {
   return Joi.validate(req, schema);
 }
 
-router.get("/profile", authorize, async (req, res) => {
-  try {
-    const { _id: userId } = req.user;
-
-    const user = await Users.findById(userId);
-    if (!user) {
-      throw new Error("No user found with this ID");
-    }
-    console.log(user);
-
-    res.status(200).send(user);
-  } catch (e) {
-    error(req, res, e);
-  }
-});
-
 router.post("/", async (req, res) => {
   try {
     const { email, password } = req.body;
