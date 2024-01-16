@@ -3,11 +3,11 @@ const mongoose = require("mongoose");
 const express = require("express");
 const { authorize } = require("../middleware/auth");
 const { isAdmin } = require("../middleware/admin.middleware");
+const { ErrorModel } = require("../models/error");
 const router = express.Router();
 
 router.get("/", async (req, res, next) => {
-  throw new Error('No genres found!')
-  const genres = await Genre.find().sort("name");
+  const genres = await Genre.find();
   res.send(genres);
 });
 

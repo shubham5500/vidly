@@ -1,0 +1,4 @@
+{"level":"error","message":"getaddrinfo ENOTFOUND loalhost","reason":{"commonWireVersion":0,"compatible":true,"heartbeatFrequencyMS":10000,"localThresholdMS":15,"logicalSessionTimeoutMinutes":null,"maxElectionId":null,"maxSetVersion":null,"servers":{},"setName":null,"stale":false,"type":"Unknown"}}
+{"level":"error","message":"getaddrinfo ENOTFOUND loalhost","reason":{"commonWireVersion":0,"compatible":true,"heartbeatFrequencyMS":10000,"localThresholdMS":15,"logicalSessionTimeoutMinutes":null,"maxElectionId":null,"maxSetVersion":null,"servers":{},"setName":null,"stale":false,"type":"Unknown"}}
+{"level":"error","message":"getaddrinfo ENOTFOUND loalhost"}
+{"level":"error","message":"getaddrinfo ENOTFOUND loalhost"}
